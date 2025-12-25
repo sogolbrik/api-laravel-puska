@@ -14,7 +14,7 @@ class BukuController extends Controller
     public function index()
     {
         $buku = Buku::all();
-        return response()->json($buku);
+        return response()->json(['data' => $buku]);
     }
 
     /**
@@ -22,7 +22,7 @@ class BukuController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validation = $request->validate([
             'judul' => 'required|string|max:255',
             'penulis' => 'required|string|max:255',
             'penerbit' => 'required|string|max:255',
@@ -30,7 +30,7 @@ class BukuController extends Controller
             'stok' => 'required|integer|min:0',
         ]);
 
-        $buku = Buku::create($validated);
+        $buku = Buku::create($validation);
         return response()->json(['data' => $buku], 201);
     }
 
@@ -50,7 +50,7 @@ class BukuController extends Controller
     {
         $buku = Buku::findOrFail($id);
 
-        $validated = $request->validate([
+        $validation = $request->validate([
             'judul' => 'sometimes|required|string|max:255',
             'penulis' => 'sometimes|required|string|max:255',
             'penerbit' => 'sometimes|required|string|max:255',
@@ -58,7 +58,7 @@ class BukuController extends Controller
             'stok' => 'sometimes|required|integer|min:0',
         ]);
 
-        $buku->update($validated);
+        $buku->update($validation);
         return response()->json(['data' => $buku]);
     }
 
